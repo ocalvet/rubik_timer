@@ -7,6 +7,7 @@ import 'dart:async';
 
 const List<String> MOVE_TYPES = ["R", "L", "U", "D", "B", "F"];
 const List<String> MOVE_TYPES_OPTIONS = ["", "'", "2"];
+const COUNTDOWN_OPTIONS = <String>['5', '10', '15', '20', '25', '30'];
 
 void main() {
   SystemChrome.setPreferredOrientations([
@@ -83,7 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
         actions: <Widget>[
           DropdownButton<String>(
             items:
-                <String>['5', '10', '15', '20', '25', '30'].map((String value) {
+                COUNTDOWN_OPTIONS.map((String value) {
               return DropdownMenuItem<String>(
                 value: value,
                 child: Text(value),
@@ -177,7 +178,10 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _reset,
+        onPressed: () {
+          _reset();
+          _generateNewScramble();
+        },
         tooltip: 'Reset',
         child: Icon(Icons.refresh),
       ), // This trailing comma makes auto-formatting nicer for build methods.
@@ -208,13 +212,18 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  _generateNewScramble() {
+    this.setState(() {
+      scrambledMoves = scrambleRubikMoves(25);
+    });
+  }
+
   _reset() {
     setState(() {
       m100s = 0;
       countDown = int.parse(countDownSeconds);
       textColor = Colors.white70;
       backgroundColor = Colors.black38;
-      scrambledMoves = scrambleRubikMoves(25);
       timer.cancel();
       countDownTimer.cancel();
     });
