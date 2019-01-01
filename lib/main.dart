@@ -30,6 +30,7 @@ class _MyHomePageState extends State<MyHomePage> {
   int m100s = 0;
   int countDown = 15;
   Color textColor = Colors.white70;
+  Color backgroundColor = Colors.black38;
   // Stopwatch sw;
   @override
   void initState() {
@@ -62,6 +63,7 @@ class _MyHomePageState extends State<MyHomePage> {
           timer.cancel();
         },
         child: Container(
+          color: backgroundColor,
           width: double.infinity,
           height: double.infinity,
           child: Stack(
@@ -77,10 +79,10 @@ class _MyHomePageState extends State<MyHomePage> {
               Center(
                 child: Text(
                   '$seconds.$ms',
-                  style: Theme.of(context)
-                      .textTheme
-                      .display1
-                      .copyWith(fontSize: 120),
+                  style: Theme.of(context).textTheme.display1.copyWith(
+                        fontSize: 110,
+                        fontFamily: 'Orbitron',
+                      ),
                 ),
               ),
               Positioned(
@@ -89,7 +91,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Text(
                   '${countDown}s',
                   style: TextStyle(
-                      color: textColor, fontSize: 24.0, letterSpacing: 2),
+                    color: textColor,
+                    fontSize: 48.0,
+                    letterSpacing: 2,
+                    fontFamily: 'Orbitron',
+                  ),
                 ),
               )
             ],
@@ -108,8 +114,12 @@ class _MyHomePageState extends State<MyHomePage> {
     countDownTimer = Timer.periodic(Duration(seconds: 1), (t) {
       setState(() {
         countDown--;
-        if (countDown==8) {
-          textColor = Colors.red;
+        if (countDown == 8) {
+          textColor = Colors.black;
+          backgroundColor = Colors.redAccent[700];
+        }
+        if (countDown == 0) {
+          backgroundColor = Colors.greenAccent[700];
         }
       });
       if (countDown == 0) {
@@ -129,6 +139,7 @@ class _MyHomePageState extends State<MyHomePage> {
       m100s = 0;
       countDown = 15;
       textColor = Colors.white70;
+      backgroundColor = Colors.black38;
       timer.cancel();
       countDownTimer.cancel();
     });
