@@ -31,6 +31,7 @@ class _MyHomePageState extends State<MyHomePage> {
   int countDown = 15;
   Color textColor = Colors.white70;
   Color backgroundColor = Colors.black38;
+  String countDownSeconds = '15';
   // Stopwatch sw;
   @override
   void initState() {
@@ -50,6 +51,23 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
+        actions: <Widget>[
+          DropdownButton<String>(
+            items: <String>['5', '10', '15', '20', '25', '30'].map((String value) {
+              return new DropdownMenuItem<String>(
+                value: value,
+                child: new Text(value),
+              );
+            }).toList(),
+            value: countDownSeconds,
+            onChanged: (v) {
+              setState(() {
+                countDownSeconds = v;
+                countDown = int.parse(countDownSeconds);
+              });
+            },
+          )
+        ],
       ),
       body: GestureDetector(
         onLongPress: () async {
@@ -137,7 +155,7 @@ class _MyHomePageState extends State<MyHomePage> {
   _reset() {
     setState(() {
       m100s = 0;
-      countDown = 15;
+      countDown = int.parse(countDownSeconds);
       textColor = Colors.white70;
       backgroundColor = Colors.black38;
       timer.cancel();
