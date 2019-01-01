@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'dart:math' as m;
 
 void main() => runApp(MyApp());
 
@@ -10,8 +9,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Rubik Crazy Timer',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData.dark(),
-      home: MyHomePage(title: 'Rubik Crazy Timer'),
+      home: MyHomePage(title: 'Rubik Pro Timer'),
     );
   }
 }
@@ -25,13 +25,18 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   Timer timer;
+  Timer countDownTimer;
   int m100s = 0;
+  int countDown = 15;
+  Color textColor = Colors.white70;
   // Stopwatch sw;
   @override
   void initState() {
-    // sw = Stopwatch();
     timer = Timer(Duration(milliseconds: 100), () {
-      print('Timer...');
+      print('Timer');
+    });
+    countDownTimer = Timer(Duration(seconds: 1), () {
+      print('CountDown');
     });
     super.initState();
   }
@@ -45,14 +50,13 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: GestureDetector(
+        onLongPress: () {
+          _reset();
+          _startCountDown();
+        },
         onTap: () {
           print('Start timer');
           timer.cancel();
-          timer = Timer.periodic(Duration(milliseconds: 100), (t) {
-            setState(() {
-              m100s++;
-            });
-          });
         },
         child: Container(
           width: double.infinity,
@@ -76,6 +80,15 @@ class _MyHomePageState extends State<MyHomePage> {
                       .copyWith(fontSize: 80),
                 ),
               ),
+              Positioned(
+                right: 20,
+                top: 20,
+                child: Text(
+                  '${countDown}s',
+                  style: TextStyle(
+                      color: textColor, fontSize: 24.0, letterSpacing: 2),
+                ),
+              )
             ],
           ),
         ),
@@ -88,11 +101,33 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  _startCountDown() {
+    countDownTimer = Timer.periodic(Duration(seconds: 1), (t) {
+      setState(() {
+        countDown--;
+        if (countDown==8) {
+          textColor = Colors.red;
+        }
+      });
+      if (countDown == 0) {
+        countDownTimer.cancel();
+        timer.cancel();
+        timer = Timer.periodic(Duration(milliseconds: 100), (t) {
+          setState(() {
+            m100s++;
+          });
+        });
+      }
+    });
+  }
+
   _reset() {
-    print('To Reset');
     setState(() {
       m100s = 0;
+      countDown = 15;
+      textColor = Colors.white70;
       timer.cancel();
+      countDownTimer.cancel();
     });
   }
 }
