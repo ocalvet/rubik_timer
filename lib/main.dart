@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vibrate/vibrate.dart';
 import 'dart:async';
 
 void main() => runApp(MyApp());
@@ -50,7 +51,9 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: GestureDetector(
-        onLongPress: () {
+        onLongPress: () async {
+          bool canVibrate = await Vibrate.canVibrate;
+          if (canVibrate) Vibrate.vibrate();
           _reset();
           _startCountDown();
         },
