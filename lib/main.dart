@@ -77,7 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   style: Theme.of(context)
                       .textTheme
                       .display1
-                      .copyWith(fontSize: 80),
+                      .copyWith(fontSize: 120),
                 ),
               ),
               Positioned(
