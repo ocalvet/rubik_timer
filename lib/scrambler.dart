@@ -1,4 +1,3 @@
-
 import 'dart:math';
 
 const List<String> MOVE_TYPES = ["R", "L", "U", "D", "B", "F"];
