@@ -31,8 +31,6 @@ class _TimerPageState extends State<TimerPage> {
 
   @override
   Widget build(BuildContext context) {
-    int seconds = (m100s / 10).floor();
-    int ms = m100s % 10;
     return Scaffold(
       appBar: _appBar(),
       body: GestureDetector(
@@ -46,28 +44,8 @@ class _TimerPageState extends State<TimerPage> {
             children: <Widget>[
               _scrambleMovesWidget(),
               _creditsWidget(),
-              Center(
-                child: Text(
-                  '$seconds.$ms',
-                  style: Theme.of(context).textTheme.display1.copyWith(
-                        fontSize: 110,
-                        fontFamily: 'Orbitron',
-                      ),
-                ),
-              ),
-              Positioned(
-                right: 20,
-                top: 20,
-                child: Text(
-                  '${countDown}s',
-                  style: TextStyle(
-                    color: textColor,
-                    fontSize: 48.0,
-                    letterSpacing: 2,
-                    fontFamily: 'Orbitron',
-                  ),
-                ),
-              )
+              _counterWidget(),
+              _countDownWidget(),
             ],
           ),
         ),
@@ -192,6 +170,36 @@ class _TimerPageState extends State<TimerPage> {
       child: Text(
         'By: Ovidio R. Calvet',
         style: TextStyle(fontSize: 16),
+      ),
+    );
+  }
+
+  _counterWidget() {
+    int seconds = (m100s / 10).floor();
+    int ms = m100s % 10;
+    return Center(
+      child: Text(
+        '$seconds.$ms',
+        style: Theme.of(context).textTheme.display1.copyWith(
+              fontSize: 110,
+              fontFamily: 'Orbitron',
+            ),
+      ),
+    );
+  }
+
+  _countDownWidget() {
+    return Positioned(
+      right: 20,
+      top: 20,
+      child: Text(
+        '${countDown}s',
+        style: TextStyle(
+          color: textColor,
+          fontSize: 48.0,
+          letterSpacing: 2,
+          fontFamily: 'Orbitron',
+        ),
       ),
     );
   }
