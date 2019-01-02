@@ -21,7 +21,7 @@ class _TimerPageState extends State<TimerPage> {
   Color backgroundColor = Colors.black38;
   String countDownSeconds = '15';
   List<String> scrambledMoves = scrambleRubikMoves(25);
-  
+
   @override
   void initState() {
     timer = Timer(Duration(milliseconds: 100), () {});
@@ -34,70 +34,17 @@ class _TimerPageState extends State<TimerPage> {
     int seconds = (m100s / 10).floor();
     int ms = m100s % 10;
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-        actions: <Widget>[
-          DropdownButton<String>(
-            items:
-                COUNTDOWN_OPTIONS.map((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value),
-              );
-            }).toList(),
-            value: countDownSeconds,
-            onChanged: (v) {
-              setState(() {
-                countDownSeconds = v;
-                countDown = int.parse(countDownSeconds);
-              });
-            },
-          )
-        ],
-      ),
+      appBar: _appBar(),
       body: GestureDetector(
-        onLongPress: () async {
-          bool canVibrate = await Vibrate.canVibrate;
-          if (canVibrate) Vibrate.vibrate();
-          _reset();
-          _startCountDown();
-        },
-        onTap: () {
-          print('Start timer');
-          timer.cancel();
-        },
+        onLongPress: _start,
+        onTap: _stop,
         child: Container(
           color: backgroundColor,
           width: double.infinity,
           height: double.infinity,
           child: Stack(
             children: <Widget>[
-              Positioned.fill(
-                top: -350,
-                child: Container(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        scrambledMoves
-                            .getRange(0, 12)
-                            .reduce((a, b) => a + "  " + b),
-                        style: TextStyle(fontSize: 19),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        scrambledMoves
-                            .getRange(13, scrambledMoves.length)
-                            .reduce((a, b) => a + "  " + b),
-                        style: TextStyle(fontSize: 19),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              _scrambleMovesWidget(),
               Positioned(
                 left: 20,
                 bottom: 30,
@@ -143,6 +90,17 @@ class _TimerPageState extends State<TimerPage> {
     );
   }
 
+  _start() async {
+    bool canVibrate = await Vibrate.canVibrate;
+    if (canVibrate) Vibrate.vibrate();
+    _reset();
+    _startCountDown();
+  }
+
+  _stop() {
+    timer.cancel();
+  }
+
   _startCountDown() {
     countDownTimer = Timer.periodic(Duration(seconds: 1), (t) {
       setState(() {
@@ -182,5 +140,55 @@ class _TimerPageState extends State<TimerPage> {
       timer.cancel();
       countDownTimer.cancel();
     });
+  }
+
+  _appBar() {
+    return AppBar(
+      title: Text(widget.title),
+      actions: <Widget>[
+        DropdownButton<String>(
+          items: COUNTDOWN_OPTIONS.map((String value) {
+            return DropdownMenuItem<String>(
+              value: value,
+              child: Text(value),
+            );
+          }).toList(),
+          value: countDownSeconds,
+          onChanged: (v) {
+            setState(() {
+              countDownSeconds = v;
+              countDown = int.parse(countDownSeconds);
+            });
+          },
+        )
+      ],
+    );
+  }
+
+  _scrambleMovesWidget() {
+    return Positioned.fill(
+      top: -350,
+      child: Container(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              scrambledMoves.getRange(0, 12).reduce((a, b) => a + "  " + b),
+              style: TextStyle(fontSize: 19),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Text(
+              scrambledMoves
+                  .getRange(13, scrambledMoves.length)
+                  .reduce((a, b) => a + "  " + b),
+              style: TextStyle(fontSize: 19),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
