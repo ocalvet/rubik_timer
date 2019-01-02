@@ -45,14 +45,7 @@ class _TimerPageState extends State<TimerPage> {
           child: Stack(
             children: <Widget>[
               _scrambleMovesWidget(),
-              Positioned(
-                left: 20,
-                bottom: 30,
-                child: Text(
-                  'By: Ovidio R. Calvet',
-                  style: TextStyle(fontSize: 16),
-                ),
-              ),
+              _creditsWidget(),
               Center(
                 child: Text(
                   '$seconds.$ms',
@@ -188,6 +181,17 @@ class _TimerPageState extends State<TimerPage> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  _creditsWidget() {
+    return Positioned(
+      left: 20,
+      bottom: 30,
+      child: Text(
+        'By: Ovidio R. Calvet',
+        style: TextStyle(fontSize: 16),
       ),
     );
   }
