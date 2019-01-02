@@ -74,14 +74,14 @@ class _TimerPageState extends State<TimerPage> {
     bool canVibrate = await Vibrate.canVibrate;
     if (canVibrate) Vibrate.vibrate();
     _reset();
-    _startCountDown();
+    _countDown();
   }
 
   _stop() {
     timer.cancel();
   }
 
-  _startCountDown() {
+  _countDown() {
     countDownTimer = Timer.periodic(Duration(seconds: 1), (t) {
       setState(() {
         countDown--;
