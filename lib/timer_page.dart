@@ -1,7 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:rubik_timer/CountDown.dart';
 import 'package:rubik_timer/constants.dart';
+import 'package:rubik_timer/counter.dart';
+import 'package:rubik_timer/credits.dart';
+import 'package:rubik_timer/scramble_moves.dart';
 import 'package:rubik_timer/scrambler.dart';
 import 'package:vibrate/vibrate.dart';
 
@@ -42,10 +46,15 @@ class _TimerPageState extends State<TimerPage> {
           height: double.infinity,
           child: Stack(
             children: <Widget>[
-              _scrambleMovesWidget(),
-              _creditsWidget(),
-              _counterWidget(),
-              _countDownWidget(),
+              ScrambleMoves(scrambledMoves: scrambledMoves),
+              Credits(),
+              Counter(
+                total100milliseconds: m100s,
+              ),
+              CountDown(
+                textColor: textColor,
+                countDown: countDown,
+              ),
             ],
           ),
         ),
@@ -133,74 +142,6 @@ class _TimerPageState extends State<TimerPage> {
           },
         )
       ],
-    );
-  }
-
-  _scrambleMovesWidget() {
-    return Positioned.fill(
-      top: -350,
-      child: Container(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              scrambledMoves.getRange(0, 12).reduce((a, b) => a + "  " + b),
-              style: TextStyle(fontSize: 19),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Text(
-              scrambledMoves
-                  .getRange(13, scrambledMoves.length)
-                  .reduce((a, b) => a + "  " + b),
-              style: TextStyle(fontSize: 19),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  _creditsWidget() {
-    return Positioned(
-      left: 20,
-      bottom: 30,
-      child: Text(
-        'By: Ovidio R. Calvet',
-        style: TextStyle(fontSize: 16),
-      ),
-    );
-  }
-
-  _counterWidget() {
-    int seconds = (m100s / 10).floor();
-    int ms = m100s % 10;
-    return Center(
-      child: Text(
-        '$seconds.$ms',
-        style: Theme.of(context).textTheme.display1.copyWith(
-              fontSize: 110,
-              fontFamily: 'Orbitron',
-            ),
-      ),
-    );
-  }
-
-  _countDownWidget() {
-    return Positioned(
-      right: 20,
-      top: 20,
-      child: Text(
-        '${countDown}s',
-        style: TextStyle(
-          color: textColor,
-          fontSize: 48.0,
-          letterSpacing: 2,
-          fontFamily: 'Orbitron',
-        ),
-      ),
     );
   }
 }
