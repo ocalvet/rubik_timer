@@ -9,14 +9,39 @@ class Counter extends StatelessWidget {
     int minutes = (totalSeconds / 60).floor();
     int seconds = totalSeconds % 60;
     int ms = total100milliseconds % 10;
+    TextStyle textStyle = Theme.of(context).textTheme.display1.copyWith(
+          fontSize: 85,
+          fontFamily: 'Orbitron',
+        );
     return Center(
-      child: Text(
-        '$minutes:$seconds.$ms',
-        style: Theme.of(context).textTheme.display1.copyWith(
-              fontSize: 110,
-              fontFamily: 'Orbitron',
-            ),
-      ),
-    );
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Text(
+          _displayValue(minutes),
+          style: textStyle,
+        ),
+        Text(
+          ':',
+          style: textStyle,
+        ),
+        Text(
+          _displayValue(seconds),
+          style: textStyle,
+        ),
+        Text(
+          '.',
+          style: textStyle,
+        ),
+        Text(
+          '$ms',
+          style: textStyle,
+        ),
+      ],
+    ));
+  }
+
+  String _displayValue(int v) {
+    return v < 10 ? "0$v" : "$v";
   }
 }
