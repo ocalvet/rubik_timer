@@ -10,7 +10,7 @@ class Counter extends StatelessWidget {
     int seconds = totalSeconds % 60;
     int ms = total100milliseconds % 10;
     TextStyle textStyle = Theme.of(context).textTheme.display1.copyWith(
-          fontSize: 85,
+          fontSize: 78,
           fontFamily: 'Orbitron',
         );
     return Center(

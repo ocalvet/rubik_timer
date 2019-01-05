@@ -7,7 +7,7 @@ import 'package:rubik_timer/counter.dart';
 import 'package:rubik_timer/credits.dart';
 import 'package:rubik_timer/scramble_moves.dart';
 import 'package:rubik_timer/scrambler.dart';
-import 'package:vibrate/vibrate.dart';
+// import 'package:vibrate/vibrate.dart';
 
 class TimerPage extends StatefulWidget {
   TimerPage({Key key, this.title}) : super(key: key);
@@ -71,8 +71,8 @@ class _TimerPageState extends State<TimerPage> {
   }
 
   _start() async {
-    bool canVibrate = await Vibrate.canVibrate;
-    if (canVibrate) Vibrate.vibrate();
+    // bool canVibrate = await Vibrate.canVibrate;
+    // if (canVibrate) Vibrate.vibrate();
     _reset();
     _countDown();
   }
